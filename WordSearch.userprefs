@@ -1,9 +1,9 @@
 ﻿<Properties StartupItem="WordSearch/WordSearch.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="WordSearch/Grid.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="WordSearch/Cell.cs">
     <Files>
-      <File FileName="WordSearch/Program.cs" Line="10" Column="30" />
-      <File FileName="WordSearch/Grid.cs" Line="23" Column="1" />
+      <File FileName="WordSearch/Program.cs" Line="1" Column="1" />
+      <File FileName="WordSearch/Grid.cs" Line="38" Column="36" />
       <File FileName="WordSearch/Cell.cs" Line="11" Column="25" />
     </Files>
   </MonoDevelop.Ide.Workbench>

@@ -8,7 +8,7 @@ namespace WordSearch
 		public int height { get; private set;}
 		private Cell[,] arr;
 		private string[] words;
-		private Letter[] histo;
+		private Letter[] histo = new Letter[26];
 		public Grid (Cell[,] arr, string[] words)
 		{
 			this.arr = arr;
@@ -34,10 +34,17 @@ namespace WordSearch
 		public void FillHisto()
 		{
 			for(int i = 0; i < 26; i++)
-				histo[i] = (char)(65 + i);
+				histo[i] = new Letter((char)(65 + i));
 			for (int i = 0; i < height; i++)
 				for (int j = 0; j < width; j++)
-					histo [arr [i, j].letter].occur++;
+					histo [arr [i, j].letter - 65].AddOccur(i,j);
+		}
+		public void PrintHisto()
+		{
+			for (int i = 0; i < 26; i++) 
+			{
+				Console.WriteLine (histo [i].c + ": " + histo [i].occur);
+			}
 		}
 		public bool FindWord(string word, int dir, int i, int j, int cur)
 		{

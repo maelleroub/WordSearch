@@ -10,7 +10,8 @@ namespace WordSearch
 			Grid g = new Grid(arr, new string[0]);
 			g.FillGrid ("ANERPQCONSMPQTE");
 			g.PrintGrid ();
-			Console.WriteLine(g.FindWord("SMP", 2, 3, 0, 0));
+			g.FillHisto ();
+			g.PrintHisto ();
 		}
 	}
 }
