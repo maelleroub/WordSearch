@@ -12,6 +12,8 @@ namespace WordSearch
 			g.PrintGrid ();
 			g.FillHisto ();
 			g.PrintHisto ();
+			g.QuickSortHisto (0, 25);
+			g.PrintHisto ();
 		}
 	}
 }
