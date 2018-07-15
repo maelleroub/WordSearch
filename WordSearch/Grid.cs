@@ -12,7 +12,9 @@ namespace WordSearch
 		public Grid (Cell[,] arr, string[] words)
 		{
 			this.arr = arr;
-			this.words = words;			
+			this.words = words;
+			for (int i = 0; i < words.Length; i++)
+				this.words [i] = this.words [i].ToUpper ();
 			height = arr.GetLength (0);
 			width = arr.GetLength (1);
 		}
@@ -52,7 +54,7 @@ namespace WordSearch
 			Letter tmp;
 			for (int j = low; j < high; j++) 
 			{
-				if (histo [j].occur >= pivot) 
+				if (histo [j].occur <= pivot) 
 				{
 					tmp = histo [low];
 					histo [low] = histo [j];
@@ -74,23 +76,78 @@ namespace WordSearch
 				QuickSortHisto (pivot + 1, high);
 			}
 		}
-		public bool FindWord(string word, int dir, int i, int j, int cur)
+		public Tuple<int, int> LeastOccurences(string word)
+		{
+			//Returns index of least frequent character in histo and in word
+			for (int i = 0; i < 26; i++) 
+				for (int j = 0; j < word.Length; j++) 
+					if (histo [i].c == word [j])
+						return new Tuple<int, int>(i, j);
+			return new Tuple<int, int>(0,0);
+		}
+		public void FindWord(string word)
+		{
+			Tuple<int, int> i = LeastOccurences (word);
+			//For each occurence of the Letter, search in the 8 directions
+			foreach (Tuple<int, int> t in histo[i.Item1].coord) 
+				for (int j = 0; j < 8; j++) 
+					if (FindFromLeastOccur (word, j, t.Item1, t.Item2, i.Item2))
+						return;
+		}
+		public bool FindFromLeastOccur(string word, int dir, int i, int j, int cur)
+		{
+			switch (dir) 
+			{
+			case 0:
+				if ((height - i - 1) >= cur && i >= word.Length - cur - 1)
+					if (FindFromBeginning (word, dir, i + cur, j, 0))
+						return true;
+				break;
+			case 1:
+				if ((height - i - 1) >= cur && i >= word.Length - cur - 1 && j >= cur && (width - j) >= word.Length - cur)
+				if (FindFromBeginning (word, dir, i + cur, j - cur, 0))
+					return true;
+				break;
+			default:
+				return false;
+			}
+			return false;
+		}
+		private bool FindFromBeginning(string word, int dir, int i, int j, int cur)
 		{
 			//8 directions, 0: N, 1: NE, 2: E, 3: SE, 4: S, 5: SW, 6: W, 7: NW
-			Console.WriteLine(arr[i,j].letter);
 			if (arr [i, j].letter != word [cur])
 				return false;
 			if (cur == word.Length - 1)
+			{
+				arr [i, j].Find ();
 				return true;
+			}
+			int i2 = i;
+			int j2 = j;
 			if (dir >= 1 && dir <= 3)
-				j++;
+				j2++;
 			else if (dir >= 5)
-				j--;
+				j2--;
 			if (dir == 7 || dir <= 1)
-				i--;
+				i2--;
 			else if (dir >= 4 && dir <= 6)
-				i++;
-			return FindWord (word, dir, i, j, cur + 1);
+				i2++;
+			if (FindFromBeginning (word, dir, i2, j2, cur + 1))
+			{
+				arr [i, j].Find ();
+				return true;
+			}
+			return false;
+		}
+		public void PrintCheck()
+		{
+			for (int i = 0; i < height; i++) 
+			{
+				for (int j = 0; j < width; j++)
+					Console.Write ((arr [i,j].found ? "T" : "F") + " ");
+				Console.WriteLine ();
+			}
 		}
 	}
 }

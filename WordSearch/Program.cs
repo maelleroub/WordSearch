@@ -6,14 +6,17 @@ namespace WordSearch
 	{
 		public static void Main (string[] args)
 		{
-			Cell[,] arr = new Cell[5,3];
+			Cell[,] arr = new Cell[5,7];
 			Grid g = new Grid(arr, new string[0]);
-			g.FillGrid ("ANERPQCONSMPQTE");
+			g.FillGrid ("GDNHETCMOITSNIDTCWTSGEHNDRTSCXDSTEG");
 			g.PrintGrid ();
 			g.FillHisto ();
-			g.PrintHisto ();
+			//g.PrintHisto ();
 			g.QuickSortHisto (0, 25);
-			g.PrintHisto ();
+			//g.PrintHisto ();
+			string word = Console.ReadLine();
+			g.FindWord (word);
+			g.PrintCheck ();
 		}
 	}
 }

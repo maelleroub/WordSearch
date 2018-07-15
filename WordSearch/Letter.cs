@@ -7,7 +7,7 @@ namespace WordSearch
 	{
 		public char c { get; private set; }
 		public int occur { get; private set; }
-		private List<Tuple<int, int>> coord = new List<Tuple<int, int>> ();
+		public List<Tuple<int, int>> coord = new List<Tuple<int, int>> ();
 		public Letter (char c)
 		{
 			this.c = c;
