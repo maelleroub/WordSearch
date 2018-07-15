@@ -100,12 +100,42 @@ namespace WordSearch
 			{
 			case 0:
 				if ((height - i - 1) >= cur && i >= word.Length - cur - 1)
-					if (FindFromBeginning (word, dir, i + cur, j, 0))
-						return true;
+				if (FindFromBeginning (word, dir, i + cur, j, 0))
+					return true;
 				break;
 			case 1:
 				if ((height - i - 1) >= cur && i >= word.Length - cur - 1 && j >= cur && (width - j) >= word.Length - cur)
 				if (FindFromBeginning (word, dir, i + cur, j - cur, 0))
+					return true;
+				break;
+			case 2:
+				if (j >= cur && (width - j) >= word.Length - cur)
+				if (FindFromBeginning (word, dir, i, j - cur, 0))
+					return true;
+				break;
+			case 3:
+				if ((height - i) >= word.Length - cur && i >= cur && j >= cur && (width - j) >= word.Length - cur)
+				if (FindFromBeginning (word, dir, i - cur, j - cur, 0))
+					return true;
+				break;
+			case 4:
+				if ((height - i) >= word.Length - cur && i >= cur)
+				if (FindFromBeginning (word, dir, i - cur, j, 0))
+					return true;
+				break;
+			case 5:
+				if ((height - i) >= word.Length - cur && i >= cur && width - j - 1 >= cur && j >= word.Length - cur - 1)
+				if (FindFromBeginning (word, dir, i - cur, j + cur, 0))
+					return true;
+				break;
+			case 6:
+				if (width - j - 1 >= cur && j >= word.Length - cur - 1)
+				if (FindFromBeginning (word, dir, i, j + cur, 0))
+					return true;
+				break;
+			case 7:
+				if (width - j - 1 >= cur && j >= word.Length - cur - 1 && (height - i - 1) >= cur && i >= word.Length - cur - 1)
+				if (FindFromBeginning (word, dir, i + cur, j + cur, 0))
 					return true;
 				break;
 			default:
@@ -131,7 +161,7 @@ namespace WordSearch
 				j2--;
 			if (dir == 7 || dir <= 1)
 				i2--;
-			else if (dir >= 4 && dir <= 6)
+			else if (dir >= 3 && dir <= 5)
 				i2++;
 			if (FindFromBeginning (word, dir, i2, j2, cur + 1))
 			{
