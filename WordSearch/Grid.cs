@@ -33,6 +33,15 @@ namespace WordSearch
 				Console.WriteLine ();
 			}
 		}
+		public void PrintCheck()
+		{
+			for (int i = 0; i < height; i++) 
+			{
+				for (int j = 0; j < width; j++)
+					Console.Write ((arr [i,j].found ? "T" : "F") + " ");
+				Console.WriteLine ();
+			}
+		}
 		public void FillHisto()
 		{
 			for(int i = 0; i < 26; i++)
@@ -85,14 +94,15 @@ namespace WordSearch
 						return new Tuple<int, int>(i, j);
 			return new Tuple<int, int>(0,0);
 		}
-		public void FindWord(string word)
+		public bool FindWord(string word)
 		{
 			Tuple<int, int> i = LeastOccurences (word);
 			//For each occurence of the Letter, search in the 8 directions
 			foreach (Tuple<int, int> t in histo[i.Item1].coord) 
 				for (int j = 0; j < 8; j++) 
 					if (FindFromLeastOccur (word, j, t.Item1, t.Item2, i.Item2))
-						return;
+						return true;
+			return false;
 		}
 		public bool FindFromLeastOccur(string word, int dir, int i, int j, int cur)
 		{
@@ -170,13 +180,12 @@ namespace WordSearch
 			}
 			return false;
 		}
-		public void PrintCheck()
+		public void FindList()
 		{
-			for (int i = 0; i < height; i++) 
+			foreach (string w in words)
 			{
-				for (int j = 0; j < width; j++)
-					Console.Write ((arr [i,j].found ? "T" : "F") + " ");
-				Console.WriteLine ();
+				if (!FindWord (w))
+					Console.Error.WriteLine (w + ": Not in the grid");
 			}
 		}
 	}
