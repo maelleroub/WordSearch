@@ -38,7 +38,12 @@ namespace WordSearch
 			for (int i = 0; i < height; i++) 
 			{
 				for (int j = 0; j < width; j++)
-					Console.Write ((arr [i,j].found ? "T" : "F") + " ");
+				{
+					if (arr [i, j].found)
+						Console.ForegroundColor = ConsoleColor.Red;
+					Console.Write (arr [i,j].letter + " ");
+					Console.ForegroundColor = ConsoleColor.White;
+				}
 				Console.WriteLine ();
 			}
 		}
