@@ -180,13 +180,21 @@ namespace WordSearch
 			}
 			return false;
 		}
-		public void FindList()
+		public string FindList()
 		{
 			foreach (string w in words)
 			{
 				if (!FindWord (w))
 					Console.Error.WriteLine (w + ": Not in the grid");
 			}
+			string s = "";
+			for (int i = 0; i < height; i++)
+				for (int j = 0; j < width; j++)
+				{
+					if (!arr [i, j].found)
+						s += arr [i, j].letter;
+				}
+			return s;
 		}
 	}
 }

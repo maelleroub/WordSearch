@@ -8,9 +8,10 @@ namespace WordSearch
 		{
 			Grid g = CreateGrid (args);
 			g.PrintGrid ();
-			g.FindList ();
+			string r = g.FindList ();
 			Console.WriteLine ("\n");
 			g.PrintCheck ();
+			Console.WriteLine ("\n" + r);
 		}
 		public static Grid CreateGrid(string[] args)
 		{
