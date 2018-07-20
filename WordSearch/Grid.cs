@@ -4,6 +4,7 @@ namespace WordSearch
 {
 	public class Grid
 	{
+		public enum Direction { N, NE, E, SE, S, SW, W, NW };
 		public int width { get; private set;}
 		public int height { get; private set;}
 		private Cell[,] arr;
@@ -105,50 +106,50 @@ namespace WordSearch
 			//For each occurence of the Letter, search in the 8 directions
 			foreach (Tuple<int, int> t in histo[i.Item1].coord) 
 				for (int j = 0; j < 8; j++) 
-					if (FindFromLeastOccur (word, j, t.Item1, t.Item2, i.Item2))
+					if (FindFromLeastOccur (word, (Direction)j, t.Item1, t.Item2, i.Item2))
 						return true;
 			return false;
 		}
-		public bool FindFromLeastOccur(string word, int dir, int i, int j, int cur)
+		public bool FindFromLeastOccur(string word, Direction dir, int i, int j, int cur)
 		{
 			switch (dir) 
 			{
-			case 0:
+			case Direction.N:
 				if ((height - i - 1) >= cur && i >= word.Length - cur - 1)
 				if (FindFromBeginning (word, dir, i + cur, j, 0))
 					return true;
 				break;
-			case 1:
+			case Direction.NE:
 				if ((height - i - 1) >= cur && i >= word.Length - cur - 1 && j >= cur && (width - j) >= word.Length - cur)
 				if (FindFromBeginning (word, dir, i + cur, j - cur, 0))
 					return true;
 				break;
-			case 2:
+			case Direction.E:
 				if (j >= cur && (width - j) >= word.Length - cur)
 				if (FindFromBeginning (word, dir, i, j - cur, 0))
 					return true;
 				break;
-			case 3:
+			case Direction.SE:
 				if ((height - i) >= word.Length - cur && i >= cur && j >= cur && (width - j) >= word.Length - cur)
 				if (FindFromBeginning (word, dir, i - cur, j - cur, 0))
 					return true;
 				break;
-			case 4:
+			case Direction.S:
 				if ((height - i) >= word.Length - cur && i >= cur)
 				if (FindFromBeginning (word, dir, i - cur, j, 0))
 					return true;
 				break;
-			case 5:
+			case Direction.SW:
 				if ((height - i) >= word.Length - cur && i >= cur && width - j - 1 >= cur && j >= word.Length - cur - 1)
 				if (FindFromBeginning (word, dir, i - cur, j + cur, 0))
 					return true;
 				break;
-			case 6:
+			case Direction.W:
 				if (width - j - 1 >= cur && j >= word.Length - cur - 1)
 				if (FindFromBeginning (word, dir, i, j + cur, 0))
 					return true;
 				break;
-			case 7:
+			case Direction.NW:
 				if (width - j - 1 >= cur && j >= word.Length - cur - 1 && (height - i - 1) >= cur && i >= word.Length - cur - 1)
 				if (FindFromBeginning (word, dir, i + cur, j + cur, 0))
 					return true;
@@ -158,9 +159,8 @@ namespace WordSearch
 			}
 			return false;
 		}
-		private bool FindFromBeginning(string word, int dir, int i, int j, int cur)
+		private bool FindFromBeginning(string word, Direction dir, int i, int j, int cur)
 		{
-			//8 directions, 0: N, 1: NE, 2: E, 3: SE, 4: S, 5: SW, 6: W, 7: NW
 			if (arr [i, j].letter != word [cur])
 				return false;
 			if (cur == word.Length - 1)
@@ -170,13 +170,13 @@ namespace WordSearch
 			}
 			int i2 = i;
 			int j2 = j;
-			if (dir >= 1 && dir <= 3)
+			if ((int)dir >= 1 && (int)dir <= 3)
 				j2++;
-			else if (dir >= 5)
+			else if ((int)dir >= 5)
 				j2--;
-			if (dir == 7 || dir <= 1)
+			if ((int)dir == 7 || (int)dir <= 1)
 				i2--;
-			else if (dir >= 3 && dir <= 5)
+			else if ((int)dir >= 3 && (int)dir <= 5)
 				i2++;
 			if (FindFromBeginning (word, dir, i2, j2, cur + 1))
 			{
