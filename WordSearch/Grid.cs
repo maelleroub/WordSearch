@@ -110,54 +110,32 @@ namespace WordSearch
 						return true;
 			return false;
 		}
+		private bool EnoughRoom(int size, Direction dir, int i, int j, int cur)
+		{
+			bool b = true;
+			if((int)dir <= 1 || (int)dir == 7) //Northern direction
+				b = b && ((height - i - 1) >= cur && i >= size - cur - 1);
+			else if((int)dir >= 3 && (int)dir <= 5) //Southern direction
+				b = b && ((height - i) >= size - cur && i >= cur);
+			if((int)dir >= 1 && (int)dir <= 3) //Eastern direction
+				b = b && (j >= cur && (width - j) >= size - cur);
+			else if ((int)dir >= 5) //Western direction
+				b = b && (width - j - 1 >= cur && j >= size - cur - 1);
+			return b;
+		}
 		public bool FindFromLeastOccur(string word, Direction dir, int i, int j, int cur)
 		{
-			switch (dir) 
-			{
-			case Direction.N:
-				if ((height - i - 1) >= cur && i >= word.Length - cur - 1)
-				if (FindFromBeginning (word, dir, i + cur, j, 0))
-					return true;
-				break;
-			case Direction.NE:
-				if ((height - i - 1) >= cur && i >= word.Length - cur - 1 && j >= cur && (width - j) >= word.Length - cur)
-				if (FindFromBeginning (word, dir, i + cur, j - cur, 0))
-					return true;
-				break;
-			case Direction.E:
-				if (j >= cur && (width - j) >= word.Length - cur)
-				if (FindFromBeginning (word, dir, i, j - cur, 0))
-					return true;
-				break;
-			case Direction.SE:
-				if ((height - i) >= word.Length - cur && i >= cur && j >= cur && (width - j) >= word.Length - cur)
-				if (FindFromBeginning (word, dir, i - cur, j - cur, 0))
-					return true;
-				break;
-			case Direction.S:
-				if ((height - i) >= word.Length - cur && i >= cur)
-				if (FindFromBeginning (word, dir, i - cur, j, 0))
-					return true;
-				break;
-			case Direction.SW:
-				if ((height - i) >= word.Length - cur && i >= cur && width - j - 1 >= cur && j >= word.Length - cur - 1)
-				if (FindFromBeginning (word, dir, i - cur, j + cur, 0))
-					return true;
-				break;
-			case Direction.W:
-				if (width - j - 1 >= cur && j >= word.Length - cur - 1)
-				if (FindFromBeginning (word, dir, i, j + cur, 0))
-					return true;
-				break;
-			case Direction.NW:
-				if (width - j - 1 >= cur && j >= word.Length - cur - 1 && (height - i - 1) >= cur && i >= word.Length - cur - 1)
-				if (FindFromBeginning (word, dir, i + cur, j + cur, 0))
-					return true;
-				break;
-			default:
-				return false;
-			}
-			return false;
+			int i2 = i;
+			int j2 = j;
+			if((int)dir <= 1 || (int)dir == 7)
+				i2 += cur;
+			else if((int)dir >= 3 && (int)dir <= 5)
+				i2 -= cur;
+			if((int)dir >= 1 && (int)dir <= 3)
+				j2 -= cur;
+			else if ((int)dir >= 5)
+				j2 += cur;
+			return (EnoughRoom (word.Length, dir, i, j, cur) && FindFromBeginning (word, dir, i2, j2, 0));
 		}
 		private bool FindFromBeginning(string word, Direction dir, int i, int j, int cur)
 		{
